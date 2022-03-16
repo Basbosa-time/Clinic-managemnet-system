@@ -5,34 +5,31 @@ const schema = mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     auto: true,
   },
-  name: {
+  patient: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true,
+    ref: "patient",
+  },
+  recep: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true,
+    ref: "recep",
+  },
+  paymentMethod: {
     type: String,
     required: true,
+    enum: ["cash", "credit"],
   },
-  company: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  quantity: {
+  totalAmount: {
     type: Number,
     required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  rate: {
-    type: Number,
     default: 0,
   },
-  customers: {
+  paidAmount: {
     type: Number,
+    required: true,
     default: 0,
   },
 });
 
-module.exports = mongoose.model("medicine", schema);
+module.exports = mongoose.model("invoice", schema);
