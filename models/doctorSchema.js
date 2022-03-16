@@ -7,8 +7,6 @@ const schema = new mongoose.Schema({
         ref:'service'
     },
     schedule:[{branchId:{type:mongoose.SchemaTypes.ObjectId , required:true , ref:'branch'}, startTime:String , endTime:String , days:[{type:String}]}],
-
-
 })
 
 module.exports = mongoose.model('doctor',schema);

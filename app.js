@@ -14,8 +14,9 @@ const user = require('./models/userSchema');
 
 const doctor = require('./models/doctorSchema');
 
-
 const recep = require('./models/recepSchema');
+const patient = require('./models/patientSchema')
+
 //image variables
 const storage=multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -107,10 +108,51 @@ async function test(){
     //     }).save().then((u)=>console.log(u)).catch((err)=>console.log(err))
     // })
 
+    // new recep({
+    //     branch:'62310fe7e776c20e9a634b61'
+    // }).save().then((rec)=>{
+    //     new user({
+    //                 name:'ali',
+    //                 email:'ali@yahoo.com',
+    //                 password:'123',
+    //                 role:'recep',
+    //                 userId:rec._id
+    //             }).save().then((u)=>console.log(u)).catch((err)=>console.log(err))
+    // })
 
+    // (await recep.find()).forEach((r)=>{
+    //     r.populate('branch').then((res)=>{
+    //         console.log(res);
+    //     })
+    // })
 
+    // new patient({
+    //     name:'ahmed',
+    //     history:['fjsdlfds','fsdfsdf'],
+    //     visits:[{
+    //         branch:'62310fe7e776c20e9a634b61',
+    //         doctor:'62311fd3a7af410c18bc46bd',
+    //         date:'jghjgh',
+    //         time:'iutiour',
+    //         presc:'gjlkdsjgfkjdfgs;jdfgljdfjg'
+    //     },
+    //     {
+    //         branch:'62310fe7e776c20e9a634b61',
+    //         doctor:'62311fd3a7af410c18bc46bd',
+    //         date:'jghjgh',
+    //         time:'iutiour',
+    //         presc:'gjlkdsjgfkjdfgs;jdfgljdfjg'
+    //     }
+    // ]
+    // }).save().then((res)=>{
+    //     console.log(res)
+    // })
 
-
+    // (await patient.find()).forEach((pat)=>{
+    //     pat.populate({path:'visits',populate:[{path:'branch',model:'branch'},{path:'doctor',model:'doctor'}]}).then((res)=>{
+    //         console.log(res.visits);
+    //     })
+    // })
 
 
 
