@@ -19,7 +19,7 @@ const schema = new mongoose.Schema({
         required:true,
         enum:["admin","doctor","recep"]
     },
-    userId:{
+    owner:{
         type:mongoose.SchemaTypes.ObjectId,
         required:true,
         refPath: 'role'

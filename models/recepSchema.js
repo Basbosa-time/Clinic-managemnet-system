@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const schema  = mongoose.Schema({
-    branchId:{
+    branch:{
         type:mongoose.SchemaTypes.ObjectId,
         ref:'branch',
         required:true
