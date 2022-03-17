@@ -41,6 +41,7 @@ const schema = mongoose.Schema({
       },
     },
   ],
+  image:String,
 });
 
 module.exports = mongoose.model("patient", schema);
