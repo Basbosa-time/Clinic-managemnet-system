@@ -27,7 +27,7 @@ exports.createPatient = (req, res, next) => {
     let error=new Error();
     error.status=422;
     error.message=errors.array().reduce((current,object)=>current+object.msg+" ","")
-    throw error;
+    next(error);
   }
   let newPatient = new patient({
     name: req.body.name,
@@ -54,12 +54,12 @@ exports.updatePatient = (req,res,next)=>{
       $set:{
         name:req.body.name,
       }
-    }
+    },
+    { new: true }
   ).then(data=>{
     if(data==null) console.log('err');
     res.status(201).json(data);
   }).catch(err=>{
-    console.log(err);
     next(err);
   })
 }

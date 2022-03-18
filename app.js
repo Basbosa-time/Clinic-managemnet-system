@@ -9,6 +9,7 @@ const path = require("path");
 const patientRouter = require("./routers/patientRouter");
 const doctorRouter = require("./routers/doctorRouter");
 const branchRouter = require("./routers/branchRouter");
+const medicineRouter = require("./routers/medicineRouter");
 
 //image variables
 const storage = multer.diskStorage({
@@ -83,9 +84,10 @@ app.use(body_parser.json());
 app.use("/patients",patientRouter);
 app.use("/branches",branchRouter);
 app.use("/doctors", doctorRouter);
+app.use("/medicine",medicineRouter);
 
 //error middleware
-app.use((error, request, response, next) => {
+app.use((error, response) => {
   let status = error.status || 500;
   response.status(status).json({ Error: error + "" });
 });
