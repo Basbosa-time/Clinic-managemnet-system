@@ -62,3 +62,22 @@ exports.deleteMedicine = (req,res,next) =>{
         res.status(201).json(data)
     }).catch(err=>next(err));
 }
+
+
+exports.addMedicineFeedback = (req,res,next)=>{
+    let currentRate;
+    medicine.findById(req.params.medicineId).then(data=>{
+        medicine.findByIdAndUpdate(
+            req.params.medicineId,
+            {
+                $set:{
+                    rate:(req.body.rate + data.rate)
+                }
+            },
+            {new:true}
+        ).then(data=>{
+            res.status(200).json(data)
+        }).catch(err=>next(err))
+    })
+
+}

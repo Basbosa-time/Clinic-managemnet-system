@@ -22,4 +22,9 @@ router
     param("medicineId").isAlphanumeric().withMessage("medicineId should be alphanumeric")
 ],controller.deleteMedicine);
 
+router.put('/feedback/:medicineId',[
+    param("medicineId").isAlphanumeric().withMessage("medicineId should be alphanumeric"),
+    body("rate").isFloat({min:0,max:5}).withMessage("rate should be an int between 0 and 5")
+],controller.addMedicineFeedback);
+
 module.exports = router;
