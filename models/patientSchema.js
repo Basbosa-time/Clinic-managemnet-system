@@ -15,32 +15,6 @@ const schema = mongoose.Schema({
     enum: ["male", "female"],
   },
   history: [String],
-  visits: [
-    {
-      branch: {
-        type: mongoose.SchemaTypes.ObjectId,
-        required: true,
-        ref: "branch",
-      },
-      doctor: {
-        type: mongoose.SchemaTypes.ObjectId,
-        required: true,
-        ref: "doctor",
-      },
-      date: {
-        type: String,
-        required: true,
-      },
-      time: {
-        type: String,
-        required: true,
-      },
-      presc: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
 });
 
 module.exports = mongoose.model("patient", schema);

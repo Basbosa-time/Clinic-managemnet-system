@@ -7,6 +7,8 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 
+const doctorRouter = require("./routers/doctorRouter");
+
 //image variables
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -79,6 +81,8 @@ app.use(body_parser.json());
 //     img: req.file,
 //   });
 // });
+
+app.use("/doctors", doctorRouter);
 
 //error middleware
 app.use((error, request, response, next) => {

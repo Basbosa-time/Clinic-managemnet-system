@@ -20,7 +20,7 @@ const schema = mongoose.Schema({
     required: true,
     ref: "patient",
   },
-  time: {
+  bookingTime: {
     type: String,
     required: true,
   },
@@ -32,6 +32,15 @@ const schema = mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
     ref: "invoice",
+  },
+  arrivalTime: {
+    type: String,
+    required: true,
+  },
+  presc: {
+    type: String,
+    required: true,
+    default: "",
   },
 });
 
