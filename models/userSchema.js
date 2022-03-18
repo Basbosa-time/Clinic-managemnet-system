@@ -24,6 +24,7 @@ const schema = new mongoose.Schema({
     required: true,
     refPath: "role",
   },
+  image:String
 });
 
 module.exports = mongoose.model("user", schema);
