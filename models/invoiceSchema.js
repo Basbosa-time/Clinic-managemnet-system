@@ -5,15 +5,10 @@ const schema = mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     auto: true,
   },
-  patient: {
-    type: mongoose.SchemaTypes.ObjectId,
-    required: true,
-    ref: "patient",
-  },
   recep: {
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
-    ref: "recep",
+    ref: "user",
   },
   paymentMethod: {
     type: String,
