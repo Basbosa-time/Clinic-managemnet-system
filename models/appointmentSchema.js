@@ -35,11 +35,12 @@ const schema = mongoose.Schema({
   },
   arrivalTime: {
     type: String,
-    required: true,
+  //  required: true,
+    default:""
   },
   presc: {
     type: String,
-    required: true,
+  //  required: true,
     default: "",
   },
 });
