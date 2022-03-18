@@ -1,26 +1,25 @@
 const { validationResult } = require('express-validator')
 const patient = require('../models/patientSchema')
-const branch = require('../models/branchSchema')
-const doctor = require('../models/doctorSchema')
-const { request } = require('express')
 
 exports.getAllPatients = (req, res, next) => {
-  patient
-    .find()
-    .populate({
-      path: 'visits',
-      populate: [
-        { path: 'branch', model: 'branch' },
-        { path: 'doctor', model: 'doctor' },
-      ],
-    })
-    .then((data) => {
-      res.status(200).json(data)
-    })
-    .catch((err) => {
-      next(err)
-    })
+  patient.find({}).then(data=>{
+    res.status(200).json(data);
+  }).catch(err=>{
+    next(err);
+  });
 }
+
+exports.getPatientById = (req,res,next)=>{
+  patient.findById(req.params.patientId)
+         .then(data=>{
+           res.status(200).json(data)
+          })
+          .catch(err=>{
+            next(err);
+          })
+}
+
+
 
 exports.createPatient = (req, res, next) => {
   let errors = validationResult(req);
@@ -34,7 +33,6 @@ exports.createPatient = (req, res, next) => {
     name: req.body.name,
     gender: req.body.gender,
     history: req.body.history,
-    visits: [],
     image: '',
   })
 
@@ -45,5 +43,27 @@ exports.createPatient = (req, res, next) => {
     })
     .catch((err) => next(err))
 }
+
+
+exports.updatePatient = (req,res,next)=>{
+  const id = req.params.patientId;
+  console.log(id);
+  patient.findByIdAndUpdate(
+    id,
+    {
+      $set:{
+        name:req.body.name,
+      }
+    }
+  ).then(data=>{
+    if(data==null) console.log('err');
+    res.status(201).json(data);
+  }).catch(err=>{
+    console.log(err);
+    next(err);
+  })
+}
+
+
 
 
