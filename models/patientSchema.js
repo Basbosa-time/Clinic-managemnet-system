@@ -15,6 +15,7 @@ const schema = mongoose.Schema({
     enum: ["male", "female"],
   },
   history: [String],
+  image:String,
 });
 
 module.exports = mongoose.model("patient", schema);

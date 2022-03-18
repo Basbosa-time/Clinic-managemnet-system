@@ -6,6 +6,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
+const patientRouter = require("./routers/patientRouter");
+
 
 const doctorRouter = require("./routers/doctorRouter");
 
@@ -48,7 +50,7 @@ mongoose
 
     // listen on port Number
     app.listen(process.env.port, () => {
-      console.log("I am Listenining .......");
+      console.log("I am Listenining on port 8000 .......");
     });
   })
   .catch((error) => {
@@ -75,12 +77,15 @@ app.use(morgan("dev"));
 app.use(body_parser.urlencoded({ extended: false }));
 app.use(body_parser.json());
 
-// app.post("/", (req, res) => {
-//   console.log(req.file.filename);
-//   res.json({
-//     img: req.file,
-//   });
-// });
+// routes
+
+app.use('/patients',patientRouter);
+
+
+
+
+
+
 
 app.use("/doctors", doctorRouter);
 
