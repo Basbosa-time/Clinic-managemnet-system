@@ -22,25 +22,37 @@ router.get(
   ],
   controller.getDoctorSchedule
 );
-router.post("", [
-  body("name").isAlpha().withMessage("Doctor name must be alphapitcal"),
-  body('email').isEmail().withMessage('Doctor email is not valid'),
-  body('schedule').isArray().withMessage('Doctor schedule must be array'),
-  body('schedule.*.branch').notEmpty().withMessage('Branch is required'),
-  body('schedule.*.startTime').matches('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$').withMessage('start time must match HH:MM'),
-  body('schedule.*.endTime').matches('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$').withMessage('end time must match HH:MM'),
-  body('').custom((val, { req }) => {
-    req.body.schedule.forEach(el => {
-      let startH = el.startTime.split(':')[0];
-      let endH = el.endTime.split(':')[0];
-      if (parseInt(startH) >= parseInt(endH)) {
-        throw new Error("end time must be greater than start time")
-      }
-    });
-    return true;
-  }),
-  body('schedule.*.days').isArray({ min: 1 }).withMessage('schedule days must be array'),
-  body('schedule.*.days.*').isLength({min:3}).withMessage('invalid schedule days'),
-],controller.createDoctor);
+router.post(
+  "",
+  [
+    body("name").isAlpha().withMessage("Doctor name must be alphapitcal"),
+    body("email").isEmail().withMessage("Doctor email is not valid"),
+    body("schedule").isArray().withMessage("Doctor schedule must be array"),
+    body("schedule.*.branch").notEmpty().withMessage("Branch is required"),
+    body("schedule.*.startTime")
+      .matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+      .withMessage("start time must match HH:MM"),
+    body("schedule.*.endTime")
+      .matches("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+      .withMessage("end time must match HH:MM"),
+    body("").custom((val, { req }) => {
+      req.body.schedule.forEach((el) => {
+        let startH = el.startTime.split(":")[0];
+        let endH = el.endTime.split(":")[0];
+        if (parseInt(startH) >= parseInt(endH)) {
+          throw new Error("end time must be greater than start time");
+        }
+      });
+      return true;
+    }),
+    body("schedule.*.days")
+      .isArray({ min: 1 })
+      .withMessage("schedule days must be array"),
+    body("schedule.*.days.*")
+      .isLength({ min: 3 })
+      .withMessage("invalid schedule days"),
+  ],
+  controller.createDoctor
+);
 
 module.exports = router;

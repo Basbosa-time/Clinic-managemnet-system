@@ -43,7 +43,10 @@ const fileFilter = (req, file, cb) => {
 
 // create server
 const app = express();
-const DB = process.env.DATABASE.replace('<PASSWORD>',process.env.DATABASE_PASSWORD);
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
 
 mongoose
   .connect(DB)
@@ -56,7 +59,7 @@ mongoose
     });
   })
   .catch((err) => {
-    console.log(" DB Problem",err);
+    console.log(" DB Problem", err);
   });
 
 /// Middlewares
@@ -81,10 +84,10 @@ app.use(body_parser.json());
 
 // routes
 
-app.use("/patients",patientRouter);
-app.use("/branches",branchRouter);
+app.use("/patients", patientRouter);
+app.use("/branches", branchRouter);
 app.use("/doctors", doctorRouter);
-app.use("/medicine",medicineRouter);
+app.use("/medicine", medicineRouter);
 
 //error middleware
 app.use((error, response) => {
