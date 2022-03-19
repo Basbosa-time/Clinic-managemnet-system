@@ -26,4 +26,10 @@ router.get(
   ],
   controller.getServiceBranches
 );
+
+router.get("/doctors/:serviceId", [
+    param("serviceId")
+      .isAlphanumeric()
+      .withMessage("serviceId should be alphanumeric")
+],controller.getServiceDoctors);
 module.exports = router;
