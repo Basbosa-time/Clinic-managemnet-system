@@ -18,6 +18,7 @@ exports.getAppointment =  (req, res, next) => {
     appointmentModel
       .find({ branch:branchId })
       .select({ "bookingTime": 1 })
+      .sort([['bookingTime']])
       .populate([
         {
           path: 'doctor',
@@ -41,23 +42,19 @@ exports.getAppointment =  (req, res, next) => {
       ]).then((data) => {
         data.length !== 0 ? res.status(200).json({ data }) : res.status(202).json({ message: "this branch hasn't appointment" })
       }).catch(e => {
-        console.log(e);
         next(e);
       })
   }
 }
 
 exports.postAppointment =  (req, res, next) => {
-  //console.log(req.body);
   let { body } = req
   let errors = validationResult(req);
   if (errors.length > 0) {
     let error = new Error();
     error.status = 442;
     error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-    console.log("yyyyy", { errors });
     next(error);
-    // res.json({error}) 
   } else {
     new invoiceModel({
       recep: body.recep,
@@ -92,9 +89,7 @@ exports.putAppointment =  (req, res, next) => {
     let error = new Error();
     error.status = 442;
     error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-    console.log("yyyyy", { errors });
     next(error);
-    // res.json({error}) 
   } else {
 
     appointmentModel
@@ -108,7 +103,6 @@ exports.putAppointment =  (req, res, next) => {
         { new: true }
       )
       .then((data) => {
-        if (data == null) console.log("err");
         res.status(201).json(data);
       })
       .catch((err) => {
@@ -120,14 +114,12 @@ exports.putAppointment =  (req, res, next) => {
 exports.deleteAppointment = (req,res,next)=>{
   let errors = validationResult(req);
   let { params: { appointmentId } } = req;
-  console.log("params",appointmentId);
   if (errors.length > 0) {
     let error = new Error();
     error.status = 422;
     error.message = errors
       .array()
       .reduce((current, object) => current + object.msg + " ", "");
-      console.log(errors);
     next(error);
   }
   else {
