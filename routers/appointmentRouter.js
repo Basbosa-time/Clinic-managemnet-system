@@ -2,9 +2,14 @@ const express = require("express");
 const { body, param, query, oneOf } = require('express-validator');
 const appointmentController = require("../controllers/appointmentController");
 const router = express.Router();
-// dr-patient-bookingTime-service-date-insurance company - payment method - total amount - net amount - discount
-// ask about insurance company
-router.get("/:branch", [param("branch").isAlphanumeric().withMessage("Service Id should be alphanumeric").exists().withMessage("put branch Id")], appointmentController.getAppointment);
+router.get("/:branchId",[
+  param("branchId")
+  .isAlphanumeric()
+  .withMessage("Service Id should be alphanumeric")
+  .exists()
+  .withMessage("put appointment Id")
+], appointmentController.getAppointment);
+
 router.post("/", [
   body("doctor").exists().withMessage('please fill doctor Id').isAlphanumeric().withMessage("doc Id isn't correct"),
   body("patient").exists().withMessage("please fill patient Id").isAlphanumeric().withMessage("patient Id isn't correct"),
@@ -17,4 +22,22 @@ router.post("/", [
   body("totalAmount").exists().withMessage("please fill totalAmount").isInt(),
   body("paidAmount").exists().withMessage("paymentAmount").isInt(),
 ], appointmentController.postAppointment)
+
+router.put("/:appointmentId",[
+  param('appointmentId').isAlphanumeric().withMessage("Service Id should be alphanumeric").exists().withMessage("put branch Id"),
+  body('doctor').isAlphanumeric(),
+  body('patient').isAlphanumeric(),
+  body('bookingTime').isString(),
+  body('arrivalTime').isString(),
+  body('presc').isString()
+],appointmentController.putAppointment)
+
+router.delete("/:appointmentId",[
+  param('appointmentId')
+  .isAlphanumeric()
+  .withMessage("Service Id should be alphanumeric")
+  .exists()
+  .withMessage("put appointment Id")
+],appointmentController.deleteAppointment)
+
 module.exports = router;
