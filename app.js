@@ -11,6 +11,9 @@ const patientRouter = require("./routers/patientRouter");
 const doctorRouter = require("./routers/doctorRouter");
 const appointmentRouter = require('./routers/appointmentRouter');
 const insuranceCompanyRouter = require('./routers/insuranceCompanyRouter');
+const branchRouter = require("./routers/branchRouter");
+const medicineRouter = require("./routers/medicineRouter");
+
 //image variables
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -43,8 +46,13 @@ const fileFilter = (req, file, cb) => {
 
 // create server
 const app = express();
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
+
 mongoose
-  .connect("mongodb://localhost:27017/cms")
+  .connect(DB)
   .then(() => {
     console.log("DB connected ....");
 
@@ -53,8 +61,8 @@ mongoose
       console.log("I am Listenining on port 8000 .......");
     });
   })
-  .catch((error) => {
-    console.log(" DB Problem");
+  .catch((err) => {
+    console.log(" DB Problem", err);
   });
 
 /// Middlewares
@@ -78,19 +86,15 @@ app.use(body_parser.urlencoded({ extended: false }));
 app.use(body_parser.json());
 
 // routes
-//app.use('/patients',patientRouter);
+app.use("/patients", patientRouter);
+app.use("/branches", branchRouter);
+app.use("/doctors", doctorRouter);
+app.use("/medicine", medicineRouter);
 app.use('/appointments',appointmentRouter);
 app.use('/insuranceCompany',insuranceCompanyRouter)
 
-
-
-
-
-
-//app.use("/doctors", doctorRouter);
-
 //error middleware
-app.use((error, request, response, next) => {
+app.use((error, response) => {
   let status = error.status || 500;
   response.status(status).json({ Error: error + "" });
 });

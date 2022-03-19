@@ -27,10 +27,10 @@ exports.getDoctorsWithService = (req, res, next) => {
   }
   user
     .find({ role: "doctor" })
-    .populate("owner")
+    .populate({ path: "owner", model:'doctor'})
     .then((data) => {
       let docsUsers = data.filter(
-        (docUser) => docUser.owner.specialization == req.body.specId
+        (docUser) => docUser.owner.specialization == req.params.specId
       );
       res.status(200).json(docsUsers);
     })
@@ -51,13 +51,10 @@ exports.getDoctorSchedule = (req, res, next) => {
     throw error;
   }
   user
-    .find({ role: "doctor" })
-    .populate("owner")
+    .findById(req.params.docUserId)
+    .populate({ path: "owner", model:'doctor'})
     .then((data) => {
-      let docUser = data.filter(
-        (_docUser) => _docUser.owner._id == req.body.docId
-      )[0];
-      res.status(200).json(docUser.owner.schedule);
+      res.status(200).json(data.owner.schedule);
     })
     .catch((err) => {
       console.log(err);
@@ -65,4 +62,34 @@ exports.getDoctorSchedule = (req, res, next) => {
     });
 };
 
-exports.createDoctor = (req, res, next) => {};
+exports.createDoctor = (req, res, next) => {
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let error = new Error();
+    error.status = 422;
+    error.message = errors
+      .array()
+      .reduce((current, object) => current + object.msg + " ", "");
+    throw error;
+  }
+  new doctor({
+    specialization: req.body.specId,
+    schedule: req.body.schedule
+  })
+    .save()
+    .then((doc) => {
+      new user({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        role: "doctor",
+        owner: doc._id,
+      })
+        .save()
+        .then((data) => res.status(200).json({message:'added', data:data}))
+        .catch((err) => {
+          console.log(err);
+          next(err);
+        });
+    });
+};
