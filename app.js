@@ -10,6 +10,7 @@ const patientRouter = require("./routers/patientRouter");
 
 const doctorRouter = require("./routers/doctorRouter");
 const appointmentRouter = require('./routers/appointmentRouter');
+const insuranceCompanyRouter = require('./routers/insuranceCompanyRouter');
 //image variables
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -79,6 +80,7 @@ app.use(body_parser.json());
 // routes
 //app.use('/patients',patientRouter);
 app.use('/appointments',appointmentRouter);
+app.use('/insuranceCompany',insuranceCompanyRouter)
 
 
 
