@@ -9,10 +9,11 @@ const path = require("path");
 const patientRouter = require("./routers/patientRouter");
 
 const doctorRouter = require("./routers/doctorRouter");
-const appointmentRouter = require('./routers/appointmentRouter');
-const insuranceCompanyRouter = require('./routers/insuranceCompanyRouter');
+const appointmentRouter = require("./routers/appointmentRouter");
+const insuranceCompanyRouter = require("./routers/insuranceCompanyRouter");
 const branchRouter = require("./routers/branchRouter");
 const medicineRouter = require("./routers/medicineRouter");
+const serviceRouter = require("./routers/serviceRouter");
 
 //image variables
 const storage = multer.diskStorage({
@@ -90,9 +91,9 @@ app.use("/patients", patientRouter);
 app.use("/branches", branchRouter);
 app.use("/doctors", doctorRouter);
 app.use("/medicine", medicineRouter);
-app.use('/appointments',appointmentRouter);
-app.use('/insuranceCompany',insuranceCompanyRouter)
-
+app.use("/appointments", appointmentRouter);
+app.use("/insuranceCompany", insuranceCompanyRouter);
+app.use("/services", serviceRouter);
 //error middleware
 app.use((error, response) => {
   let status = error.status || 500;
