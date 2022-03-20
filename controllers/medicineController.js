@@ -82,6 +82,7 @@ exports.addMedicineFeedback = (req, res, next) => {
         {
           $set: {
             rate: req.body.rate + data.rate,
+            customers: data.customers + 1,
           },
         },
         { new: true }

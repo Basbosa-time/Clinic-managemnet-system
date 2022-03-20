@@ -55,24 +55,3 @@ exports.getServiceBranches = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
-
-exports.getServiceDoctors = (req, res, next) => {
-  let errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    let error = new Error();
-    error.status = 422;
-    error.message = errors
-      .array()
-      .reduce((current, object) => current + object.msg + " ", "");
-    next(error);
-  }
-
-  doctor
-    .find({
-      specialization: req.params.serviceId,
-    })
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => next(err));
-};
