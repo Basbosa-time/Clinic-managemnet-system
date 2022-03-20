@@ -26,7 +26,7 @@ exports.createRecep = (req, res, next) => {
     throw error;
   }
   new recep({
-    branch: req.body.branchId,
+    branch: req.body.branch,
   })
     .save()
     .then((recep) => {
@@ -57,21 +57,29 @@ exports.updateRecep = (req, res, next) => {
     throw error;
   }
   user
-    .findByIdAndUpdate(req.body.recepUserId, {
-      $set: {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
+    .findByIdAndUpdate(
+      req.params.recepUserId,
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+        },
       },
-    })
+      { new: true }
+    )
     .then((data) => {
       if (data == null) throw new Error("RecepUser is not found!");
       recep
-        .findByIdAndUpdate(data.owner, {
-          $set: {
-            branch: req.body.branchId,
+        .findByIdAndUpdate(
+          data.owner,
+          {
+            $set: {
+              branch: req.body.branch,
+            },
           },
-        })
+          { new: true }
+        )
         .then((recep) => {
           res
             .status(200)

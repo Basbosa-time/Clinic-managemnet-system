@@ -30,7 +30,7 @@ exports.getDoctorsWithService = (req, res, next) => {
     .populate({ path: "owner", model: "doctor" })
     .then((data) => {
       let docsUsers = data.filter(
-        (docUser) => docUser.owner.specialization == req.params.specId
+        (docUser) => docUser.owner.specialization == req.params.specialization
       );
       res.status(200).json(docsUsers);
     })
@@ -73,7 +73,7 @@ exports.createDoctor = (req, res, next) => {
     throw error;
   }
   new doctor({
-    specialization: req.body.specId,
+    specialization: req.body.specialization,
     schedule: req.body.schedule,
   })
     .save()
@@ -105,22 +105,30 @@ exports.updateDoctor = (req, res, next) => {
     throw error;
   }
   user
-    .findByIdAndUpdate(req.body.docUserId, {
-      $set: {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
+    .findByIdAndUpdate(
+      req.params.docUserId,
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+        },
       },
-    })
+      { new: true }
+    )
     .then((data) => {
       if (data == null) throw new Error("DoctorUser is not found!");
       doctor
-        .findByIdAndUpdate(data.owner, {
-          $set: {
-            specialization: req.body.specId,
-            schedule: req.body.schedule,
+        .findByIdAndUpdate(
+          data.owner,
+          {
+            $set: {
+              specialization: req.body.specialization,
+              schedule: req.body.schedule,
+            },
           },
-        })
+          { new: true }
+        )
         .then((doc) => {
           res
             .status(200)

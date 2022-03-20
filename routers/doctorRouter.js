@@ -58,9 +58,9 @@ router.post(
 );
 
 router.put(
-  "",
+  "/:docUserId",
   [
-    body("docUserId")
+    param("docUserId")
       .isAlphanumeric()
       .withMessage("DoctorUser Id should be alphanumeric"),
     body("name")

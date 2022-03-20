@@ -19,9 +19,9 @@ router.post(
 );
 
 router.put(
-  "",
+  "/:recepUserId",
   [
-    body("recepUserId")
+    param("recepUserId")
       .isAlphanumeric()
       .withMessage("RecepUser Id should be alphanumeric"),
     body("name")
