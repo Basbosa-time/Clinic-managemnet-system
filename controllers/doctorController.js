@@ -117,7 +117,7 @@ exports.updateDoctor = (req, res, next) => {
       doctor
         .findByIdAndUpdate(data.owner, {
           $set: {
-            specId: req.body.specId,
+            specialization: req.body.specId,
             schedule: req.body.schedule,
           },
         })

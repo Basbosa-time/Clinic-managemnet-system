@@ -9,6 +9,7 @@ const path = require("path");
 const patientRouter = require("./routers/patientRouter");
 
 const doctorRouter = require("./routers/doctorRouter");
+const recepRouter = require("./routers/recepRouter");
 const appointmentRouter = require("./routers/appointmentRouter");
 const insuranceCompanyRouter = require("./routers/insuranceCompanyRouter");
 const branchRouter = require("./routers/branchRouter");
@@ -90,6 +91,7 @@ app.use(body_parser.json());
 app.use("/patients", patientRouter);
 app.use("/branches", branchRouter);
 app.use("/doctors", doctorRouter);
+app.use("/receps", recepRouter);
 app.use("/medicine", medicineRouter);
 app.use("/appointments", appointmentRouter);
 app.use("/insuranceCompany", insuranceCompanyRouter);
