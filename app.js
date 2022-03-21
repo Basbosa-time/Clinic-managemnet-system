@@ -15,7 +15,7 @@ const insuranceCompanyRouter = require("./routers/insuranceCompanyRouter");
 const branchRouter = require("./routers/branchRouter");
 const medicineRouter = require("./routers/medicineRouter");
 const serviceRouter = require("./routers/serviceRouter");
-
+const authRouter = require("./routers/authRouter");
 //image variables
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -88,6 +88,7 @@ app.use(body_parser.urlencoded({ extended: false }));
 app.use(body_parser.json());
 
 // routes
+app.use(authRouter);
 app.use("/patients", patientRouter);
 app.use("/branches", branchRouter);
 app.use("/doctors", doctorRouter);
