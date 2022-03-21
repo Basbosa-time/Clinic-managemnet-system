@@ -11,7 +11,7 @@ router.post(
       .isAlpha("en-US", { ignore: " " })
       .withMessage("Doctor name must be alphapitcal"),
     body("email").isEmail().withMessage("Doctor email is not valid"),
-    body("branchId")
+    body("branch")
       .isAlphanumeric()
       .withMessage("Branch Id should be alphanumeric"),
   ],
@@ -26,9 +26,9 @@ router.put(
       .withMessage("RecepUser Id should be alphanumeric"),
     body("name")
       .isAlpha("en-US", { ignore: " " })
-      .withMessage("Doctor name must be alphapitcal"),
-    body("email").isEmail().withMessage("Doctor email is not valid"),
-    body("branchId")
+      .withMessage("Recep name must be alphapitcal"),
+    body("email").isEmail().withMessage("Recep email is not valid"),
+    body("branch")
       .isAlphanumeric()
       .withMessage("Branch Id should be alphanumeric"),
   ],
