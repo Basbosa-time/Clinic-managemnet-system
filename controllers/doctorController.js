@@ -30,7 +30,7 @@ exports.getDoctorsWithService = (req, res, next) => {
     .populate({ path: "owner", model: "doctor" })
     .then((data) => {
       let docsUsers = data.filter(
-        (docUser) => docUser.owner.specialization == req.params.specialization
+        (docUser) => docUser.owner.specialization == req.params.specId
       );
       res.status(200).json(docsUsers);
     })
