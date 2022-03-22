@@ -6,7 +6,15 @@ const router = express.Router();
 
 router
   .get("", controller.getAllServices)
-  .get("/branches/:branchId", controller.getServicesWithBranchId)
+  .get(
+    "/branches/:branchId",
+    [
+      param("branchId")
+        .isAlphanumeric()
+        .withMessage("branch id in params should be alphanumeric"),
+    ],
+    controller.getServicesWithBranchId
+  )
   .post(
     "",
     [

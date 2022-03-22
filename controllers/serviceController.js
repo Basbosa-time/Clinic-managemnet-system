@@ -49,7 +49,7 @@ exports.getServicesWithBranchId = (req, res, next) => {
 
   service
     .find({
-      "branches._id": { $in: [req.params.branchId] },
+      branches: req.params.branchId,
     })
     .then((data) => {
       res.status(200).json({ data: data });
