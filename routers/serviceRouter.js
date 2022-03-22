@@ -6,6 +6,7 @@ const router = express.Router();
 
 router
   .get("", controller.getAllServices)
+  .get("/branches/:branchId", controller.getServicesWithBranchId)
   .post(
     "",
     [

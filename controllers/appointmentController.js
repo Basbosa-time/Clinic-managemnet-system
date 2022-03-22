@@ -19,7 +19,7 @@ exports.getAppointment = (req, res, next) => {
   } else {
     appointmentModel
       .find({ branch: branchId })
-      .select({ bookingTime: 1 })
+      .select({ bookingTime: 1, arrivalTime: 1 })
       .sort([["bookingTime"]])
       .populate([
         {

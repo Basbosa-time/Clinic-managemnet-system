@@ -36,7 +36,7 @@ exports.createService = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-exports.getServiceBranches = (req, res, next) => {
+exports.getServicesWithBranchId = (req, res, next) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     let error = new Error();
@@ -48,10 +48,11 @@ exports.getServiceBranches = (req, res, next) => {
   }
 
   service
-    .findById(req.params.serviceId)
-    .populate("branches")
+    .find({
+      "branches._id": { $in: [req.params.branchId] },
+    })
     .then((data) => {
-      res.status(200).json({ branches: data.branches });
+      res.status(200).json({ data: data });
     })
     .catch((err) => next(err));
 };
