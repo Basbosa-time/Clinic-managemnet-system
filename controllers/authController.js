@@ -33,6 +33,6 @@ exports.authenticateToken = (req, res, next) => {
     if (err) return res.sendStatus(403); // not valid token
 
     req.user = user;
-    next()
+    next();
   });
 };
