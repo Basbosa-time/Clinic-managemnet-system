@@ -1,24 +1,29 @@
-const doctor = require("../models/doctorSchema");
-const recep = require("../models/recepSchema");
+require("dotenv").config();
+const user = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
+
 exports.login = (req, res, next) => {
-  Student.findOne({ name: req.body.name })
+  user
+    .findOne({ email: req.body.email, password: req.body.password })
+    .populate({ path: "owner", model: "doctor" })
     .then((data) => {
-      if (!data) next(new Error("username or password incorrect"));
-
-      let token = jwt.sign(
+      console.log(data);
+      if (!data) next(new Error("this doctor is not valid"));
+      let accessToken = jwt.sign(
         {
-          email: req.body.email,
-          id: data._id,
-          role: req.body.role,
+          email: data.email,
+          _id: data._id,
+          password: data.password,
+          role: data.role,
         },
-        "basbosatime",
-        { expiresIn: "1h" }
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: process.env.TOKEN_EXPIRE_DATE }
       );
-
-      response.status(200).json({ data, token });
+      res.status(200).json({ data: data, accessToken: accessToken });
     })
-    .catch((error) => {
-      next(error);
-    });
+    .catch((err) => next(err));
+};
+
+exports.authenticateToken = (req, res, next) => {
+  const authHeaders = req.headers["authorization"];
 };

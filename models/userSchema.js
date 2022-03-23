@@ -9,6 +9,7 @@ const schema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -24,7 +25,7 @@ const schema = new mongoose.Schema({
     required: true,
     refPath: "role",
   },
-  image:String
+  image: String,
 });
 
 module.exports = mongoose.model("user", schema);
