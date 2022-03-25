@@ -34,16 +34,16 @@ exports.getInvoicesSummary = (req, res, next) => {
     let appointment = {}
     appointmentModel.find({}).populate('invoice').then(appointments => {
       appointments.forEach(app => {
-       // appDateMonth = new Date(app.date).getMonth();
+        // appDateMonth = new Date(app.date).getMonth();
         const appDateMonth = new Date(app.date).toLocaleString('default', { month: 'long' });
         appointment[appDateMonth] = appointment[appDateMonth] ? appointment[appDateMonth] + app.invoice.paidAmount : app.invoice.paidAmount
       })
-      res.status(200).json( appointment )
+      res.status(200).json(appointment)
     })
   }
 
 }
-exports.getInvoices = (req,res,next) => { 
+exports.getInvoices = (req, res, next) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     let error = new Error();
@@ -53,14 +53,14 @@ exports.getInvoices = (req,res,next) => {
       .reduce((current, object) => current + object.msg + " ", "");
     next(error);
   } else {
-    invoiceModel.find({}).then(invoices=>{
+    invoiceModel.find({}).then(invoices => {
       res.status(200).json(invoices)
     })
-    
+
   }
 
 }
-exports.getAppointments = (req,res,next) => { 
+exports.getAppointments = (req, res, next) => {
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     let error = new Error();
@@ -69,5 +69,34 @@ exports.getAppointments = (req,res,next) => {
       .array()
       .reduce((current, object) => current + object.msg + " ", "");
     next(error);
-  } else {}
+  } else {
+    appointmentModel.find({}).populate([
+      {
+        path: "doctor",
+        select: "name",
+        populate: {
+          path: "owner",
+          model: "doctor",
+          select: "specialization",
+          populate: {
+            path: "specialization",
+            select: "name",
+            model: "service",
+          },
+        },
+      },
+      {
+        path: "patient",
+        model: "patient",
+        select: "name",
+      },
+      {
+        path: 'branch',
+        model: 'branch',
+        select: "name"
+      }
+    ]).then(appointments => {
+      res.status(200).json(appointments)
+    })
+  }
 }
