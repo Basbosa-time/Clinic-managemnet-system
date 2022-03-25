@@ -7,7 +7,7 @@ const router = express.Router();
 router
   .get(
     "/invoicesSummary",controller.getInvoicesSummary)
-router.get("/invices",controller.getInvoices);
+router.get("/invoices",controller.getInvoices);
 router.get("/appointments",controller.getAppointments);
 router.get("/genderSummary",controller.getGenderSummary)
  

@@ -38,11 +38,36 @@ exports.getInvoicesSummary = (req, res, next) => {
         const appDateMonth = new Date(app.date).toLocaleString('default', { month: 'long' });
         appointment[appDateMonth] = appointment[appDateMonth] ? appointment[appDateMonth] + app.invoice.paidAmount : app.invoice.paidAmount
       })
-      res.status(200).json({ appointment })
-
+      res.status(200).json( appointment )
     })
   }
 
 }
-exports.getInvoices = () => { }
-exports.getAppointments = () => { }
+exports.getInvoices = (req,res,next) => { 
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let error = new Error();
+    error.status = 422;
+    error.message = errors
+      .array()
+      .reduce((current, object) => current + object.msg + " ", "");
+    next(error);
+  } else {
+    invoiceModel.find({}).then(invoices=>{
+      res.status(200).json(invoices)
+    })
+    
+  }
+
+}
+exports.getAppointments = (req,res,next) => { 
+  let errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let error = new Error();
+    error.status = 422;
+    error.message = errors
+      .array()
+      .reduce((current, object) => current + object.msg + " ", "");
+    next(error);
+  } else {}
+}
