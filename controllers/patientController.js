@@ -37,12 +37,13 @@ exports.createPatient = (req, res, next) => {
     name: req.body.name,
     gender: req.body.gender,
     history: req.body.history,
-    image: "",
+    image: req.file?.filename,
   });
 
   newPatient
     .save()
     .then((data) => {
+      console.log(data);
       res.status(201).json({ message: "patient added", data });
     })
     .catch((err) => next(err));

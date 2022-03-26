@@ -10,7 +10,7 @@ router
     "",
     [
       body("name").isString().notEmpty().withMessage("name should be string"),
-      body("history").isArray().withMessage("history should be string"),
+      body("history").isArray().withMessage("history should be array"),
       body("gender")
         .isString()
         .notEmpty()

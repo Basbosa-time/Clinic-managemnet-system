@@ -98,7 +98,7 @@ app.use("/medicine", medicineRouter);
 app.use("/appointments", appointmentRouter);
 app.use("/insuranceCompany", insuranceCompanyRouter);
 app.use("/services", serviceRouter);
-app.use("/reports",reportRouter);
+app.use("/reports", reportRouter);
 
 //error middleware
 app.use((error, response) => {

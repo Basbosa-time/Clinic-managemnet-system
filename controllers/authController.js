@@ -8,7 +8,7 @@ exports.login = (req, res, next) => {
     .populate({ path: "owner", model: "doctor" })
     .then((data) => {
       console.log(data);
-      if (!data) next(new Error("this doctor is not valid"));
+      if (!data) next(new Error("this user is not valid"));
       let accessToken = jwt.sign(
         {
           email: data.email,
@@ -26,7 +26,7 @@ exports.login = (req, res, next) => {
 
 exports.authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split("")[1]; // if there is a token return it if not return null
+  const token = authHeader && authHeader.split(" ")[1]; // if there is a token return it if not return null
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
