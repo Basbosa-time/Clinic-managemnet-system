@@ -33,6 +33,10 @@ const schema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  review: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("medicine", schema);
