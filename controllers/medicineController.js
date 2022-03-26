@@ -31,6 +31,7 @@ exports.createMedicine = (req, res, next) => {
     rate: req.body.rate,
     customers: req.body.customers,
     review: req.body.review,
+    image: req.file?.filename,
   });
 
   newMedicine

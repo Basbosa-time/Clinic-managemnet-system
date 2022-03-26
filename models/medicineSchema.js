@@ -37,6 +37,7 @@ const schema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  image:String
 });
 
 module.exports = mongoose.model("medicine", schema);
