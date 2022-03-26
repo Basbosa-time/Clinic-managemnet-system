@@ -19,7 +19,7 @@ exports.getAppointment = (req, res, next) => {
   } else {
     appointmentModel
       .find({ branch: branchId })
-      .select({ bookingTime: 1, arrivalTime: 1 })
+      .select({ bookingTime: 1, arrivalTime: 1, presc: 1 })
       .sort([["bookingTime"]])
       .populate([
         {
@@ -39,7 +39,7 @@ exports.getAppointment = (req, res, next) => {
         {
           path: "patient",
           model: "patient",
-          select: "name",
+          // select: "name",
         },
       ])
       .then((data) => {
@@ -50,6 +50,80 @@ exports.getAppointment = (req, res, next) => {
       .catch((e) => {
         next(e);
       });
+  }
+};
+
+exports.getDoctorAppointments = (req, res, next) => {
+  let errors = validationResult(req);
+  let {
+    params: { branchId, doctorId },
+  } = req;
+  if (errors.length > 0) {
+    let error = new Error();
+    error.status = 422;
+    error.message = errors
+      .array()
+      .reduce((current, object) => current + object.msg + " ", "");
+    next(error);
+  } else {
+    appointmentModel
+      .find({
+        $and: [
+          { branch: branchId },
+          { doctor: doctorId },
+          { date: new Date(Date.now()).toLocaleDateString() },
+        ],
+      })
+      .select({ date: 1, arrivalTime: 1, presc: 1 })
+      .populate([
+        {
+          path: "patient",
+          model: "patient",
+        },
+      ])
+      .then((data) => {
+        data.length !== 0
+          ? res.status(200).json({ data })
+          : res
+              .status(202)
+              .json({ message: "No appointments for this doctor today" });
+      })
+      .catch((e) => {
+        next(e);
+      });
+  }
+};
+
+exports.getPatientPrescs = (req, res, next) => {
+  let {
+    params: { patientId },
+  } = req;
+  // console.log(patientId);
+  let errors = validationResult(req);
+  if (errors.length > 0) {
+    let error = new Error();
+    error.status = 422;
+    error.message = errors
+      .array()
+      .reduce((current, object) => current + object.msg + " ", "");
+    next(error);
+  } else {
+    appointmentModel
+      .find({
+        $and: [
+          { patient: patientId },
+          { arrivalTime: { $exists: true, $ne: "" } },
+        ],
+      })
+      .select({ presc: 1, date: 1 })
+      .then((data) => {
+        data.length !== 0
+          ? res.status(200).json({ data })
+          : res
+              .status(202)
+              .json({ message: "this patient doesn't have appointments" });
+      })
+      .catch((err) => next(err));
   }
 };
 

@@ -47,6 +47,7 @@ router
         .isEmpty()
         .trim()
         .escape(),
+      body("history").isArray().withMessage("history should be array"),
     ],
     controller.updatePatient
   );
