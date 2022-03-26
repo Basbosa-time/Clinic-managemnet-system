@@ -57,6 +57,8 @@ exports.updatePatient = (req, res, next) => {
       {
         $set: {
           name: req.body.name,
+          gender:req.body.gender
+
         },
       },
       { new: true }
