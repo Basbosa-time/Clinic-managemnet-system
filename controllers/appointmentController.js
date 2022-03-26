@@ -39,7 +39,7 @@ exports.getAppointment = (req, res, next) => {
         {
           path: "patient",
           model: "patient",
-          select: "name",
+          // select: "name",
         },
       ])
       .then((data) => {
