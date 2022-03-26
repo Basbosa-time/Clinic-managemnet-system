@@ -30,6 +30,7 @@ exports.createMedicine = (req, res, next) => {
     category: req.body.category,
     rate: req.body.rate,
     customers: req.body.customers,
+    review: req.body.review,
   });
 
   newMedicine
@@ -83,6 +84,7 @@ exports.addMedicineFeedback = (req, res, next) => {
           $set: {
             rate: req.body.rate + data.rate,
             customers: data.customers + 1,
+            review: (req.body.rate + data.rate) / (data.customers + 1),
           },
         },
         { new: true }

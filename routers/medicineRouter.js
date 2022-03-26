@@ -29,9 +29,7 @@ router
         .notEmpty()
         .isString()
         .withMessage("category is required"),
-      body("rate")
-        .isFloat({ min: 0, max: 5 })
-        .withMessage("rate should be an int between 0 and 5"),
+      body("rate").isFloat({ min: 0 }).withMessage("rate should be an int"),
       body("customers").isInt().withMessage("customers is a number"),
     ],
     controller.createMedicine
