@@ -9,8 +9,8 @@ router.post(
   [
     body("name")
       .isAlpha("en-US", { ignore: " " })
-      .withMessage("Doctor name must be alphapitcal"),
-    body("email").isEmail().withMessage("Doctor email is not valid"),
+      .withMessage("Recep name must be alphapitcal"),
+    body("email").isEmail().withMessage("Recep email is not valid"),
     body("branch")
       .isAlphanumeric()
       .withMessage("Branch Id should be alphanumeric"),
