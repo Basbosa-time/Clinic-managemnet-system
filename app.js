@@ -17,6 +17,7 @@ const medicineRouter = require("./routers/medicineRouter");
 const serviceRouter = require("./routers/serviceRouter");
 const authRouter = require("./routers/authRouter");
 const reportRouter = require("./routers/reportRouter");
+const { authenticateToken } = require("./controllers/authController");
 //image variables
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -55,7 +56,7 @@ const DB = process.env.DATABASE.replace(
 );
 
 mongoose
-  .connect(DB)
+  .connect(process.env.DATABASE_LOCAL)
   .then(() => {
     console.log("DB connected ....");
 
@@ -87,8 +88,9 @@ app.use(multer({ storage, fileFilter }).single("img"));
 app.use(morgan("dev"));
 app.use(body_parser.urlencoded({ extended: false }));
 app.use(body_parser.json());
-
+app.use(authenticateToken);
 // routes
+
 app.use(authRouter);
 app.use("/patients", patientRouter);
 app.use("/branches", branchRouter);

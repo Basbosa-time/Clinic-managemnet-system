@@ -23,14 +23,12 @@ router
         .withMessage("description should be string and not empty"),
       body("quantity")
         .notEmpty()
-        .isInt({ min: 3, max: 20 })
+        .isInt({ min: 0, max: 20 })
         .withMessage("quantity is required"),
       body("category")
         .notEmpty()
         .isString()
         .withMessage("category is required"),
-      body("rate").isFloat({ min: 0 }).withMessage("rate should be an int"),
-      body("customers").isInt().withMessage("customers is a number"),
     ],
     controller.createMedicine
   )
