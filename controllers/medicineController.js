@@ -28,9 +28,9 @@ exports.createMedicine = (req, res, next) => {
     description: req.body.description,
     quantity: req.body.quantity,
     category: req.body.category,
-    rate: req.body.rate,
-    customers: req.body.customers,
-    review: req.body.review,
+    rate: 0,
+    customers: 0,
+    review: 0,
     image: req.file?.filename,
   });
 
